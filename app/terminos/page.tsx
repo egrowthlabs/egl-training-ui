@@ -29,7 +29,7 @@ export default function TerminosPage() {
           <section className="space-y-4">
             <h2 className="font-melodrama text-lg text-dark">1. Aceptación de los términos</h2>
             <p className="font-urwdin text-sm text-dark/70 leading-relaxed">
-              Al acceder y usar la plataforma re_line (en adelante "la Plataforma"), operada por eGrowth Labs S. de R.L. de C.V. con dominio egrowthlabs.mx, aceptas los presentes Términos y Condiciones. Si no estás de acuerdo, te pedimos no usar la Plataforma.
+              Al acceder y usar la plataforma re_line (en adelante &ldquo;la Plataforma&rdquo;), operada por eGrowth Labs S. de R.L. de C.V. con dominio egrowthlabs.mx, aceptas los presentes Términos y Condiciones. Si no estás de acuerdo, te pedimos no usar la Plataforma.
             </p>
           </section>
 
@@ -64,7 +64,7 @@ export default function TerminosPage() {
           <section className="space-y-4">
             <h2 className="font-melodrama text-lg text-dark">6. Cancelaciones y reembolsos</h2>
             <p className="font-urwdin text-sm text-dark/70 leading-relaxed">
-              Puedes cancelar tu suscripción en cualquier momento desde la sección "Mi Suscripción" en la Plataforma. Tu acceso continuará hasta el final del período pagado. No ofrecemos reembolsos por períodos parciales, salvo en casos donde la ley aplicable lo exija.
+              Puedes cancelar tu suscripción en cualquier momento desde la sección &ldquo;Mi Suscripción&rdquo; en la Plataforma. Tu acceso continuará hasta el final del período pagado. No ofrecemos reembolsos por períodos parciales, salvo en casos donde la ley aplicable lo exija.
             </p>
           </section>
 
