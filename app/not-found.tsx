@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function NotFound() {
@@ -19,8 +20,14 @@ export default function NotFound() {
       >
         {/* Logo mark */}
         <div className="flex justify-center mb-8">
-          <div className="h-20 w-20 rounded-2xl bg-primary flex items-center justify-center shadow-lg">
-            <span className="font-melodrama text-3xl text-white tracking-tight">rl</span>
+          <div className="h-20 w-20 rounded-2xl bg-primary flex items-center justify-center shadow-lg p-3">
+            <Image
+              src="/images/logo-re-line-ligth.png"
+              alt="re_line"
+              width={64}
+              height={64}
+              className="object-contain"
+            />
           </div>
         </div>
 
