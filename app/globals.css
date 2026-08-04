@@ -1,33 +1,259 @@
+/*
+ * ─────────────────────────────────────────────────────────────────────────────
+ * globals.css — re_line | inner & out
+ * Sistema de diseño base. Paleta y tipografía definidas en:
+ * openspec/specs/04_client_branding.md
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Fuentes Locales — re_line brand fonts ──────────────────────────────
+ * Melodrama Variable — Display / Headings (editorial serif)
+ * URW DIN Regular    — Body / UI (functional sans-serif)
+ * Paleta: openspec/specs/04_client_branding.md
+ * ──────────────────────────────────────────────────────────────── */
+
+/* Melodrama Variable (axis: weight 100–900) */
+@font-face {
+  font-family: 'Melodrama';
+  src: url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Variable.woff2') format('woff2'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Variable.woff')  format('woff'),
+       url('/fonts/Melodrama_Complete/Fonts/TTF/Melodrama-Variable.ttf')   format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Melodrama static weights para fallback */
+@font-face {
+  font-family: 'Melodrama';
+  src: url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Light.woff2') format('woff2'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Light.woff')  format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Melodrama';
+  src: url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Regular.woff2') format('woff2'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Regular.woff')  format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Melodrama';
+  src: url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Medium.woff2') format('woff2'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Medium.woff')  format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Melodrama';
+  src: url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Semibold.woff2') format('woff2'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Semibold.woff')  format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Melodrama';
+  src: url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Bold.woff2') format('woff2'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/Melodrama-Bold.woff')  format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* URW DIN Regular — Body / UI */
+@font-face {
+  font-family: 'URW DIN';
+  src: url('/fonts/urw-din-regular/urw-din-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Variables CSS del Sistema de Diseño re_line ────────────────────────── */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  /* Paleta de colores (tokens semánticos) */
+  --color-primary:           #4a6063;   /* Dark Teal */
+  --color-primary-light:     #6a8d91;
+  --color-primary-dark:      #2c3c3e;
+
+  --color-secondary:         #ccdee0;   /* Light Blue */
+  --color-secondary-light:   #f5f9fa;
+  --color-secondary-dark:    #90b2b6;
+
+  --color-dark:              #3f3f3e;   /* Dark Charcoal — texto principal */
+  --color-dark-muted:        #808080;
+
+  --color-bg:                #f5f9fa;   /* Fondo general → secondary-50 */
+  --color-surface:           #ffffff;   /* Tarjetas y superficies */
+  --color-border:            #ccdee0;   /* Bordes → secondary */
+
+  /* Tipografías (fuentes locales activas) */
+  --font-melodrama:          'Melodrama', Georgia, serif;
+  --font-urwdin:             'URW DIN', system-ui, sans-serif;
+
+  /* Espaciado del contenedor */
+  --container-max:           1200px;
+  --container-padding:       1.5rem;
+
+  /* Transiciones estándar */
+  --transition-fast:         150ms ease;
+  --transition-base:         250ms ease;
+  --transition-slow:         400ms ease;
+
+  /* Sombras suaves */
+  --shadow-sm:               0 1px 3px rgba(74, 96, 99, 0.08);
+  --shadow-md:               0 4px 16px rgba(74, 96, 99, 0.12);
+  --shadow-lg:               0 8px 32px rgba(74, 96, 99, 0.16);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+/* ─── Reset y Base ──────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-secondary-50 text-dark font-urwdin antialiased;
+    min-height: 100dvh;
+    line-height: 1.6;
+  }
+
+  /* Encabezados → Melodrama (editorial serif) */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-melodrama text-dark;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+
+  /* Links */
+  a {
+    @apply text-primary transition-colors;
+    text-decoration: none;
+  }
+  a:hover {
+    @apply text-primary-400;
+  }
+
+  /* Focus visible para accesibilidad */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* ─── Utilidades de Componente re_line ─────────────────────────────────────── */
+@layer components {
+  /* Contenedor base */
+  .container-brand {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-padding);
+  }
+
+  /* Botón primario */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-md
+           bg-primary text-white font-urwdin font-medium text-sm
+           transition-all duration-200
+           hover:bg-primary-700 active:scale-95
+           focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Botón secundario */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-md border border-primary
+           text-primary font-urwdin font-medium text-sm bg-transparent
+           transition-all duration-200
+           hover:bg-secondary hover:text-primary-700 active:scale-95
+           focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Tarjeta */
+  .card {
+    @apply bg-white rounded-xl border border-secondary p-6;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  /* Badge de estado */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full
+           text-xs font-medium font-urwdin;
+  }
+  .badge-primary {
+    @apply badge bg-primary text-white;
+  }
+  .badge-secondary {
+    @apply badge bg-secondary text-dark;
+  }
+
+  /* Input base */
+  .input-base {
+    @apply w-full px-4 py-2.5 rounded-md border border-secondary
+           bg-white text-dark font-urwdin text-sm
+           placeholder:text-dark-300
+           focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+           transition-colors duration-150;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Video.js overrides — re_line branding */
+.video-js .vjs-big-play-button {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
+  margin-top: -32px;
+  margin-left: -32px;
+}
+
+.video-js .vjs-big-play-button:hover {
+  background-color: var(--color-primary-dark, #3a5053);
+}
+
+.video-js .vjs-control-bar {
+  background-color: rgba(63, 63, 62, 0.85);
+}
+
+.video-js .vjs-play-progress,
+.video-js .vjs-volume-level {
+  background-color: var(--color-primary);
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
 }
