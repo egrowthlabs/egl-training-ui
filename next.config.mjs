@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Standalone output para Docker/Railway — genera server.js mínimo
-  output: 'standalone',
-
-  // Imágenes externas permitidas
   images: {
     remotePatterns: [
       {
