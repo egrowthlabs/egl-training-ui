@@ -25,15 +25,15 @@ export async function verifyCheckoutSession(sessionId: string): Promise<Subscrip
   return res.json();
 }
 
-export async function createCheckoutSession(): Promise<string> {
+export async function createCheckoutSession(plan: 'mensual' | 'trimestral' | 'anual' = 'mensual'): Promise<string> {
   // {CHECKOUT_SESSION_ID} es reemplazado por Stripe con el ID real al redirigir
   const successUrl = `${window.location.origin}/dashboard/suscripcion?success=true&session_id={CHECKOUT_SESSION_ID}`;
-  const cancelUrl  = `${window.location.origin}/dashboard/suscripcion?canceled=true`;
+  const cancelUrl  = `${window.location.origin}/register?plan=${plan}&canceled=true`;
 
   const res = await fetch(`${API_URL}/api/stripe/create-checkout-session`, {
     method:  'POST',
     headers: getAuthHeaders(),
-    body:    JSON.stringify({ successUrl, cancelUrl }),
+    body:    JSON.stringify({ successUrl, cancelUrl, plan }),
   });
   if (!res.ok) throw new Error('Error al crear sesión de pago');
   const data = await res.json();

@@ -8,13 +8,13 @@ export const metadata: Metadata = {
     template: '%s | re_line',
   },
   description:
-    'Plataforma VOD de fitness re_line. Cardio consciente, fuerza estructurada, pilates reformer y más. Tu rutina. Tu vida.',
+    'Plataforma VOD de fitness re_line. Cardio consciente, fuerza estructurada, pilates reformer y más. your rutine. your life.',
   keywords: ['re_line', 'fitness', 'VOD', 'pilates', 'cardio', 'fuerza', 'workout', 'entrenamiento', 'México'],
   metadataBase: new URL('https://app.egrowthlabs.mx'),
   robots: { index: false, follow: false }, // app privada — no indexar
   openGraph: {
     title:       're_line | inner & out',
-    description: 'Tu rutina. Tu vida. Plataforma de fitness VOD.',
+    description: 'your rutine. your life. Plataforma de fitness VOD.',
     siteName:    're_line',
     locale:      'es_MX',
     type:        'website',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   twitter: {
     card:        'summary',
     title:       're_line | inner & out',
-    description: 'Tu rutina. Tu vida. Plataforma de fitness VOD.',
+    description: 'your rutine. your life. Plataforma de fitness VOD.',
   },
 }
 
