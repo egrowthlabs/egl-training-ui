@@ -98,7 +98,7 @@ export default function PrivacidadPage() {
             <h2 className="font-melodrama text-lg text-dark">6. Tus derechos (ARCO)</h2>
             <p className="font-urwdin text-sm text-dark/70 leading-relaxed">
               Tienes derecho a Acceder, Rectificar, Cancelar u Oponerte al tratamiento de tus datos personales. Para ejercer estos derechos escríbenos a{' '}
-              <a href="mailto:hola@egrowthlabs.mx" className="text-primary hover:underline">hola@egrowthlabs.mx</a>{' '}
+              <a href="mailto:hola@reline.mx" className="text-primary hover:underline">hola@reline.mx</a>{' '}
               indicando el derecho que deseas ejercer. Responderemos en un plazo máximo de 20 días hábiles.
             </p>
           </section>
@@ -128,7 +128,7 @@ export default function PrivacidadPage() {
             <h2 className="font-melodrama text-lg text-dark">10. Contacto</h2>
             <p className="font-urwdin text-sm text-dark/70 leading-relaxed">
               Para cualquier consulta sobre privacidad:{' '}
-              <a href="mailto:hola@egrowthlabs.mx" className="text-primary hover:underline">hola@egrowthlabs.mx</a>
+              <a href="mailto:hola@reline.mx" className="text-primary hover:underline">hola@reline.mx</a>
             </p>
           </section>
 

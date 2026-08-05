@@ -10,19 +10,33 @@ export const metadata: Metadata = {
   description:
     'Plataforma VOD de fitness re_line. Cardio consciente, fuerza estructurada, pilates reformer y más. your rutine. your life.',
   keywords: ['re_line', 'fitness', 'VOD', 'pilates', 'cardio', 'fuerza', 'workout', 'entrenamiento', 'México'],
-  metadataBase: new URL('https://app.egrowthlabs.mx'),
-  robots: { index: false, follow: false }, // app privada — no indexar
+  metadataBase: new URL('https://app.reline.mx'),
+  robots: { index: false, follow: false }, // app privada — no indexar en buscadores
+  icons: {
+    icon:  '/images/logo-re-line-dark.png',
+    apple: '/images/logo-re-line-dark.png',
+  },
   openGraph: {
     title:       're_line | inner & out',
     description: 'your rutine. your life. Plataforma de fitness VOD.',
     siteName:    're_line',
+    url:         'https://app.reline.mx',
     locale:      'es_MX',
     type:        'website',
+    images: [
+      {
+        url:    'https://reline.mx/images/reline_betzy_entrenamiento-planche-terraza.jpeg',
+        width:  1200,
+        height: 630,
+        alt:    're_line | inner & out — your rutine. your life.',
+      },
+    ],
   },
   twitter: {
-    card:        'summary',
+    card:        'summary_large_image',
     title:       're_line | inner & out',
     description: 'your rutine. your life. Plataforma de fitness VOD.',
+    images:      ['https://reline.mx/images/reline_betzy_entrenamiento-planche-terraza.jpeg'],
   },
 }
 

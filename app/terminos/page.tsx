@@ -29,7 +29,7 @@ export default function TerminosPage() {
           <section className="space-y-4">
             <h2 className="font-melodrama text-lg text-dark">1. Aceptación de los términos</h2>
             <p className="font-urwdin text-sm text-dark/70 leading-relaxed">
-              Al acceder y usar la plataforma re_line (en adelante &ldquo;la Plataforma&rdquo;), operada por eGrowth Labs S. de R.L. de C.V. con dominio egrowthlabs.mx, aceptas los presentes Términos y Condiciones. Si no estás de acuerdo, te pedimos no usar la Plataforma.
+              Al acceder y usar la plataforma re_line (en adelante &ldquo;la Plataforma&rdquo;), operada por eGrowth Labs S. de R.L. de C.V. con dominio reline.mx, aceptas los presentes Términos y Condiciones. Si no estás de acuerdo, te pedimos no usar la Plataforma.
             </p>
           </section>
 
@@ -93,7 +93,7 @@ export default function TerminosPage() {
             <h2 className="font-melodrama text-lg text-dark">10. Contacto</h2>
             <p className="font-urwdin text-sm text-dark/70 leading-relaxed">
               Para cualquier duda escríbenos a{' '}
-              <a href="mailto:hola@egrowthlabs.mx" className="text-primary hover:underline">hola@egrowthlabs.mx</a>.
+              <a href="mailto:hola@reline.mx" className="text-primary hover:underline">hola@reline.mx</a>.
             </p>
           </section>
 
