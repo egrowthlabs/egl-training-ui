@@ -23,7 +23,7 @@ const PLAN_INFO: Record<Plan, {
 }> = {
   mensual: {
     label:    'Mensual',
-    price:    '$299',
+    price:    '$450',
     period:   '/ mes',
     color:    'var(--primary)',
     icon:     <Zap className="w-5 h-5" />,
@@ -31,18 +31,18 @@ const PLAN_INFO: Record<Plan, {
   },
   trimestral: {
     label:    'Trimestral',
-    price:    '$749',
+    price:    '$1,215',
     period:   '/ 3 meses',
-    savings:  'Ahorras $148',
+    savings:  'Ahorras $135',
     color:    '#7c5cbf',
     icon:     <Calendar className="w-5 h-5" />,
     features: ['Todo lo del plan mensual', 'Precio preferencial', 'Acceso 3 meses completos'],
   },
   anual: {
     label:    'Anual',
-    price:    '$2,499',
+    price:    '$4,320',
     period:   '/ año',
-    savings:  'Ahorras $1,089',
+    savings:  'Ahorras $1,080',
     color:    '#c0842b',
     icon:     <Shield className="w-5 h-5" />,
     features: ['Todo lo del plan trimestral', 'Mejor precio por mes', 'Acceso 12 meses completos'],
