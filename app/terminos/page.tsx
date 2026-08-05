@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -19,17 +20,21 @@ export default function TerminosPage() {
         <div className="bg-white rounded-2xl shadow-sm p-10 space-y-8">
           {/* Header */}
           <div className="border-b border-dark/8 pb-6">
-            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center mb-4">
-              <span className="font-melodrama text-sm text-white">rl</span>
-            </div>
+            <Image
+              src="/images/logo-re-line-dark.png"
+              alt="re_line inner & out"
+              width={120}
+              height={40}
+              className="h-10 w-auto object-contain mb-4"
+            />
             <h1 className="font-melodrama text-3xl text-dark">Términos y Condiciones</h1>
-            <p className="font-urwdin text-sm text-dark/40 mt-2">Última actualización: agosto 2025</p>
+            <p className="font-urwdin text-sm text-dark/40 mt-2">Última actualización: agosto 2026</p>
           </div>
 
           <section className="space-y-4">
             <h2 className="font-melodrama text-lg text-dark">1. Aceptación de los términos</h2>
             <p className="font-urwdin text-sm text-dark/70 leading-relaxed">
-              Al acceder y usar la plataforma re_line (en adelante &ldquo;la Plataforma&rdquo;), operada por eGrowth Labs S. de R.L. de C.V. con dominio reline.mx, aceptas los presentes Términos y Condiciones. Si no estás de acuerdo, te pedimos no usar la Plataforma.
+              Al acceder y usar la plataforma re_line (en adelante &ldquo;la Plataforma&rdquo;), con dominio reline.mx, aceptas los presentes Términos y Condiciones. Si no estás de acuerdo, te pedimos no usar la Plataforma.
             </p>
           </section>
 
