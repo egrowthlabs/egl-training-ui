@@ -126,7 +126,7 @@ export async function saveWorkoutBlocks(workoutId: number, blocks: any[]): Promi
   const res = await fetch(`${API_URL}/api/workouts/${workoutId}/blocks`, {
     method: 'PUT',
     headers: getAuthHeaders(),
-    body: JSON.stringify({ blocks }),
+    body: JSON.stringify(blocks),
   });
   if (!res.ok) throw new Error('Error al guardar bloques');
 }

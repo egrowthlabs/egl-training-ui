@@ -15,6 +15,7 @@ export interface Workout {
   thumbnailUrl?: string;
   durationMinutes?: number;
   isPublished: boolean;
+  isCustom: boolean;
   isFree: boolean;
   featuredDate?: string | null; // 'YYYY-MM-DD'
   blocks?: import('./exercise').WorkoutBlock[];
@@ -27,6 +28,7 @@ export interface WorkoutFilters {
   equipment?: WorkoutEquipment;
   objective?: WorkoutObjective;
   isFree?: boolean;
+  isCustom?: boolean;
   search?: string;
   pageNumber?: number;
   pageSize?: number;

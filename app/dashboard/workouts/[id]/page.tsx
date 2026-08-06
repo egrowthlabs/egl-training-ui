@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { getWorkoutById } from '@/lib/api/workouts'
+import { getWorkoutById, deleteWorkout } from '@/lib/api/workouts'
 import { getWorkoutBlocks } from '@/lib/api/exercises'
 import { WorkoutBlock } from '@/lib/types/exercise'
 import type { Workout } from '@/lib/types/workout'
 import { CATEGORY_LABELS, LEVEL_LABELS } from '@/lib/types/workout'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, CheckCircle2, Clock, Dumbbell, Pencil, Play, Repeat, Timer, Weight } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Clock, Dumbbell, Pencil, Play, Repeat, Timer, Weight, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { useAuth } from '@/context/auth-context'
 import { WorkoutTracker, LoggedSet } from '@/components/WorkoutTracker'
@@ -35,6 +35,19 @@ export default function WorkoutDetailPage() {
   const [hasSubscription, setHasSubscription] = useState<boolean | null>(null)
   const [weightUnit, setWeightUnit] = useState<'lbs' | 'kg'>('lbs')
   const [sessionKey, setSessionKey] = useState(0)
+  const [deleting,   setDeleting]   = useState(false)
+
+  const handleDelete = async () => {
+    if (!confirm('¿Estás seguro de que quieres eliminar esta clase?')) return
+    setDeleting(true)
+    try {
+      await deleteWorkout(Number(id))
+      router.push('/dashboard/workouts')
+    } catch (err: any) {
+      alert(err.message)
+      setDeleting(false)
+    }
+  }
 
   // Live session log emitted by WorkoutTracker
   const [sessionLog,         setSessionLog]         = useState<LoggedSet[]>([])
@@ -57,7 +70,7 @@ export default function WorkoutDetailPage() {
       .finally(() => setLoading(false))
 
     getMe()
-      .then(me => setWeightUnit(me.preferredWeightUnit))
+      .then(me => setWeightUnit(me.preferredWeightUnit || 'lbs'))
       .catch(() => {})
   }, [id])
 
@@ -119,14 +132,30 @@ export default function WorkoutDetailPage() {
             {LEVEL_LABELS[workout.level] ?? workout.level}
           </span>
         </div>
-        {isAdmin && (
+        {isAdmin ? (
           <Link
             href={`/dashboard/workouts/${id}/editar`}
             className="absolute top-4 right-4 flex items-center gap-2 text-sm text-white/80 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1.5 transition-all"
           >
             <Pencil className="h-3.5 w-3.5" /> Editar clase
           </Link>
-        )}
+        ) : workout.isCustom ? (
+          <div className="absolute top-4 right-4 flex items-center gap-2">
+            <Link
+              href={`/dashboard/workouts/${id}/editar-custom`}
+              className="flex items-center gap-2 text-sm text-white/80 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1.5 transition-all"
+            >
+              <Pencil className="h-3.5 w-3.5" /> Editar Rutina
+            </Link>
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="flex items-center gap-2 text-sm text-red-200 hover:text-red-100 bg-red-500/20 hover:bg-red-500/40 backdrop-blur-sm rounded-lg px-3 py-1.5 transition-all disabled:opacity-50"
+            >
+              <Trash2 className="h-3.5 w-3.5" /> {deleting ? 'Eliminando...' : 'Eliminar'}
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {/* Descripción */}

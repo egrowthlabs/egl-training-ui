@@ -7,12 +7,13 @@ export async function getWorkouts(
 ): Promise<PaginatedResponse<Workout>> {
   const params = new URLSearchParams();
   if (filters.category)                       params.set('category',    filters.category);
-  if (filters.level)                           params.set('level',        filters.level);
-  if (filters.intensity)                       params.set('intensity',    filters.intensity);
-  if (filters.equipment)                       params.set('equipment',    filters.equipment);
-  if (filters.objective)                       params.set('objective',    filters.objective);
-  if (filters.search)                          params.set('search',       filters.search);
-  if (filters.isFree !== undefined)            params.set('isFree',       String(filters.isFree));
+  if (filters.level)                          params.set('level',        filters.level);
+  if (filters.intensity)                      params.set('intensity',    filters.intensity);
+  if (filters.equipment)                      params.set('equipment',    filters.equipment);
+  if (filters.objective)                      params.set('objective',    filters.objective);
+  if (filters.search)                         params.set('search',       filters.search);
+  if (filters.isFree !== undefined)           params.set('isFree',       String(filters.isFree));
+  if (filters.isCustom !== undefined)         params.set('isCustom',     String(filters.isCustom));
   params.set('pageNumber', String(filters.pageNumber ?? 1));
   params.set('pageSize',   String(filters.pageSize   ?? 12));
 
@@ -50,6 +51,17 @@ export async function updateWorkout(id: number, data: Record<string, unknown>): 
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
     throw new Error(body.message ?? body.title ?? 'Error al actualizar la clase')
+  }
+}
+
+export async function deleteWorkout(id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/api/workouts/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+  })
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.message ?? body.title ?? 'Error al eliminar la clase')
   }
 }
 

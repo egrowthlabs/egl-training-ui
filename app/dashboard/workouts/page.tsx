@@ -61,7 +61,7 @@ export default function WorkoutsPage() {
             {data?.totalCount ?? '—'} clases disponibles
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
           {hasFilters && (
             <button
               onClick={clearFilters}
@@ -70,9 +70,13 @@ export default function WorkoutsPage() {
               <X className="h-4 w-4" /> Limpiar filtros
             </button>
           )}
-          {isAdmin && (
+          {isAdmin ? (
             <Link href="/dashboard/workouts/nueva" className="btn-primary flex items-center gap-2">
               <Plus className="h-4 w-4" /> Nueva Clase
+            </Link>
+          ) : (
+            <Link href="/dashboard/workouts/crear" className="btn-primary flex items-center gap-2">
+              <Plus className="h-4 w-4" /> Crear Rutina Personalizada
             </Link>
           )}
         </div>
@@ -146,6 +150,21 @@ export default function WorkoutsPage() {
 
         <div className="h-7 w-px bg-secondary mx-1" />
 
+        {/* Custom filter */}
+        <button
+          onClick={() => setFilter('isCustom', filters.isCustom ? undefined : true)}
+          className={cn(
+            'px-3 py-1.5 rounded-full text-sm font-urwdin transition-all border flex items-center gap-1',
+            filters.isCustom
+              ? 'bg-primary text-white border-primary'
+              : 'bg-white text-dark/70 border-secondary hover:border-primary hover:text-primary'
+          )}
+        >
+          <Sparkles className="h-3.5 w-3.5" /> Mis Rutinas
+        </button>
+
+        <div className="h-7 w-px bg-secondary mx-1" />
+
         {/* Gratis filter */}
         <button
           onClick={() => setFilter('isFree', filters.isFree === true ? undefined : true)}
@@ -195,8 +214,18 @@ export default function WorkoutsPage() {
                     <span className="text-3xl">🏋️</span>
                   </div>
                 )}
+                {/* Badge Custom */}
+                {workout.isCustom && (
+                  <span className="absolute top-2 right-2 px-2 py-1 bg-primary text-white text-xs font-bold rounded flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" /> Personalizada
+                  </span>
+                )}
+                {/* Badge Video */}
+                {workout.videoProviderId && !workout.isCustom && (
+                  <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-green-400" title="Tiene video" />
+                )}
                 {/* Badge FREE */}
-                {workout.isFree && (
+                {workout.isFree && !workout.isCustom && (
                   <div className="absolute top-2 left-2 flex items-center gap-1 bg-emerald-500 text-white text-xs font-urwdin font-semibold px-2 py-0.5 rounded-full shadow">
                     <Sparkles className="h-3 w-3" />
                     Gratis

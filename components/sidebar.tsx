@@ -21,7 +21,7 @@ const NAV_ITEMS = [
     href: '/dashboard/ejercicios',
     label: 'Ejercicios',
     icon: Dumbbell,
-    adminOnly: true,
+    adminOnly: false,
   },
   {
     href:  '/dashboard/workouts',
@@ -80,6 +80,13 @@ const NAV_ITEMS = [
     icon: CreditCard,
     adminOnly: false,
     hideForAdmin: true,   // Los admins no necesitan suscripción
+  },
+  {
+    href: '/dashboard/perfil',
+    label: 'Configuración',
+    icon: Settings,
+    adminOnly: false,
+    hideForAdmin: false,
   },
   {
     href: '/dashboard/catalogos',
