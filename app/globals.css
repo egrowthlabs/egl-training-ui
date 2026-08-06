@@ -142,6 +142,17 @@
     letter-spacing: -0.01em;
   }
 
+  /* Melodrama en tamaños pequeños necesita más peso para ser legible */
+  .font-melodrama {
+    font-weight: 500; /* mínimo visible en tamaños UI */
+  }
+  .font-melodrama.text-4xl,
+  .font-melodrama.text-5xl,
+  .font-melodrama.text-6xl,
+  .font-melodrama.text-7xl {
+    font-weight: 300; /* Light en display grande — es el look editorial */
+  }
+
   h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
   h2 { @apply text-3xl md:text-4xl; }
   h3 { @apply text-2xl md:text-3xl; }

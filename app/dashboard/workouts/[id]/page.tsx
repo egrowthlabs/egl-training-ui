@@ -169,7 +169,7 @@ export default function WorkoutDetailPage() {
 
       {/* Bloques de ejercicios */}
       <div className="card space-y-4">
-        <h2 className="font-melodrama text-xl text-dark">Ejercicios de la clase</h2>
+        <h2 className="font-melodrama text-xl font-semibold text-dark">Ejercicios de la clase</h2>
         {blocks.length === 0 ? (
           <p className="text-dark/50 text-sm">Esta clase no tiene ejercicios configurados.</p>
         ) : (
@@ -183,14 +183,14 @@ export default function WorkoutDetailPage() {
                 )}>
                   {/* Block header */}
                   <div className={cn(
-                    'px-4 py-2.5 border-b font-melodrama flex justify-between items-center transition-colors duration-500',
+                    'px-4 py-2.5 border-b flex justify-between items-center transition-colors duration-500',
                     isDone
                       ? 'bg-green-100 border-green-200 text-green-800'
                       : 'bg-secondary/10 border-secondary text-dark'
                   )}>
                     <div className="flex items-center gap-2">
                       {isDone && <CheckCircle2 className="h-4 w-4 text-green-600" />}
-                      <span>{block.name}</span>
+                      <span className="font-urwdin font-semibold text-sm tracking-wide">{block.name}</span>
                     </div>
                     <span className="text-sm font-urwdin opacity-70">{block.rounds} rounds</span>
                   </div>
