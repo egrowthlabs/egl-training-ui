@@ -53,9 +53,11 @@ export async function updateWorkout(id: number, data: Record<string, unknown>): 
   }
 }
 
-/** Clase del día — retorna el workout destacado para hoy, o null si no hay. */
+/** Clase del día — retorna el workout destacado para la fecha local del usuario, o null si no hay. */
 export async function getFeaturedToday(): Promise<Workout | null> {
-  const res = await fetch(`${API_URL}/api/schedule/today`, {
+  // Enviar la fecha local del navegador en formato YYYY-MM-DD
+  const localDate = new Date().toLocaleDateString('en-CA'); // en-CA da el formato YYYY-MM-DD
+  const res = await fetch(`${API_URL}/api/schedule/today?date=${localDate}`, {
     headers: getAuthHeaders(),
   })
   if (res.status === 404) return null
