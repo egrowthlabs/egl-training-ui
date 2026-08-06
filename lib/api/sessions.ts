@@ -120,6 +120,15 @@ export async function getProgressData(workoutId: number): Promise<WorkoutProgres
   return res.json()
 }
 
+/** Progreso de un ejercicio específico del usuario autenticado */
+export async function getExerciseProgress(exerciseId: number): Promise<WorkoutProgressPoint[]> {
+  const res = await fetch(`${API_URL}/api/workout-sessions/exercise/${exerciseId}/progress`, {
+    headers: getAuthHeaders(),
+  })
+  if (!res.ok) throw new Error('Error al cargar progreso del ejercicio')
+  return res.json()
+}
+
 export async function updateWeightUnit(unit: 'lbs' | 'kg'): Promise<void> {
   const res = await fetch(`${API_URL}/api/users/me/weight-unit`, {
     method: 'PUT',

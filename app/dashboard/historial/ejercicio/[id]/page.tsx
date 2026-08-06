@@ -9,7 +9,7 @@ import {
 import { ArrowLeft, Loader2, TrendingUp, Repeat, Timer, Weight, BarChart3, AlertTriangle } from 'lucide-react'
 import { getExerciseById } from '@/lib/api/exercises'
 import { Exercise, TRACKING_LABELS } from '@/lib/types/exercise'
-import { getProgressData, getMe } from '@/lib/api/sessions'
+import { getExerciseProgress, getMe } from '@/lib/api/sessions'
 import { getUserExerciseProgress } from '@/lib/api/progress'
 import { WorkoutProgressPoint } from '@/lib/api/sessions'
 import Image from 'next/image'
@@ -87,7 +87,7 @@ export default function EjercicioHistorialPage() {
           getExerciseById(exerciseId),
           adminUserId
             ? getUserExerciseProgress(adminUserId, exerciseId)
-            : getProgressData(exerciseId),
+            : getExerciseProgress(exerciseId),
           getMe().catch(() => ({ preferredWeightUnit: 'lbs' as const })),
         ])
         setExercise(ex)
