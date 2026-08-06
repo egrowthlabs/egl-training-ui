@@ -55,7 +55,7 @@ export async function updateWorkout(id: number, data: Record<string, unknown>): 
 
 /** Clase del día — retorna el workout destacado para hoy, o null si no hay. */
 export async function getFeaturedToday(): Promise<Workout | null> {
-  const res = await fetch(`${API_URL}/api/workouts/featured-today`, {
+  const res = await fetch(`${API_URL}/api/schedule/today`, {
     headers: getAuthHeaders(),
   })
   if (res.status === 404) return null
@@ -63,15 +63,35 @@ export async function getFeaturedToday(): Promise<Workout | null> {
   return res.json()
 }
 
-/** [Admin] Asigna o quita la fecha de clase del día. Pasar null para quitar. */
-export async function setFeaturedDate(workoutId: number, date: string | null): Promise<void> {
-  const res = await fetch(`${API_URL}/api/workouts/${workoutId}/feature`, {
+/** [Admin] Obtiene el calendario de clases en un rango. */
+export async function getSchedule(from: string, to: string): Promise<any[]> {
+  const res = await fetch(`${API_URL}/api/schedule?from=${from}&to=${to}`, {
+    headers: getAuthHeaders(),
+  })
+  if (!res.ok) throw new Error('Error al obtener calendario')
+  return res.json()
+}
+
+/** [Admin] Programa una clase para un día específico. */
+export async function setSchedule(date: string, workoutId: number): Promise<void> {
+  const res = await fetch(`${API_URL}/api/schedule/${date}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
-    body: JSON.stringify({ featuredDate: date }),
+    body: JSON.stringify({ workoutId }),
   })
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
-    throw new Error(body.message ?? 'Error al actualizar clase del día')
+    throw new Error(body.message ?? 'Error al programar clase')
+  }
+}
+
+/** [Admin] Elimina una clase de un día específico. */
+export async function deleteSchedule(date: string): Promise<void> {
+  const res = await fetch(`${API_URL}/api/schedule/${date}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+  })
+  if (!res.ok) {
+    throw new Error('Error al quitar clase del calendario')
   }
 }

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
 import {
   PlayCircle, LayoutDashboard, Users, LogOut,
-  BookOpen, ChevronRight, Dumbbell, CreditCard, Settings, Clock, History, TrendingUp,
+  BookOpen, ChevronRight, Dumbbell, CreditCard, Settings, Clock, History, TrendingUp, Calendar,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -34,6 +34,12 @@ const NAV_ITEMS = [
     label: 'Programas',
     icon:  BookOpen,
     adminOnly: false,
+  },
+  {
+    href: '/dashboard/clase-del-dia',
+    label: 'Clase del día',
+    icon: Calendar,
+    adminOnly: true,
   },
   {
     href:  '/dashboard/historial',
