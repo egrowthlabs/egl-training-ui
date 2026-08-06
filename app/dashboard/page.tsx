@@ -13,6 +13,7 @@ import {
   Settings, Plus, FileText, BarChart3,
   Activity, DollarSign,
 } from 'lucide-react'
+import { ActivityStatsWidget } from '@/components/activity-stats-widget'
 
 // ── Admin (Coach) Dashboard ────────────────────────────────────────────────────
 
@@ -259,6 +260,12 @@ function CustomerDashboard() {
           Accede a tus clases, programas y recursos.
         </p>
       </div>
+
+      {/* KPIs de actividad */}
+      <section>
+        <h2 className="font-melodrama text-base text-dark mb-3">Mi actividad</h2>
+        <ActivityStatsWidget compact={true} />
+      </section>
 
       <section>
         <h2 className="font-melodrama text-base text-dark mb-3">Tu programa</h2>

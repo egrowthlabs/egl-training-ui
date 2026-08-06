@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '@/context/auth-context'
-import {
-  getMyProgramsSummary, getUserProgramsSummary,
+import { getMyProgramsSummary, getUserProgramsSummary,
   getProgramWorkoutProgress,
   ProgramSummary, ProgramWorkoutProgress,
 } from '@/lib/api/progress'
@@ -11,6 +10,7 @@ import { getProgressData } from '@/lib/api/sessions'
 import { getUserExerciseProgress } from '@/lib/api/progress'
 import { getUsers } from '@/lib/api'
 import type { User } from '@/lib/types'
+import { ActivityStatsWidget } from '@/components/activity-stats-widget'
 import {
   LineChart, Line, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip,
@@ -496,6 +496,12 @@ function CustomerProgressContent({
         </div>
       ) : view === 'programs' ? (
         <>
+          {/* KPIs de actividad */}
+          <div className="space-y-1">
+            <h2 className="font-melodrama text-base text-dark">Mi actividad</h2>
+            <ActivityStatsWidget compact={false} />
+          </div>
+
           <h2 className="font-melodrama text-base text-dark">Mis programas</h2>
           <ProgramsOverview programs={programs} onSelect={onSelectProgram} />
           {/* Link to workout/exercise history */}
