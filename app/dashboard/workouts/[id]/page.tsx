@@ -176,6 +176,10 @@ export default function WorkoutDetailPage() {
           <div className="space-y-4">
             {blocks.map((block, i) => {
               const isDone = blockComplete(block)
+              // Parsear "A BLOCK - Piernas" → { letter: "A", group: "Piernas" }
+              const blockMatch = block.name.match(/^([A-Z\d]+)\s+BLOCK\s*[-–]\s*(.+)$/i)
+              const blockLetter = blockMatch?.[1] ?? block.name.charAt(0)
+              const blockGroup  = blockMatch?.[2] ?? block.name
               return (
                 <div key={i} className={cn(
                   'border rounded-xl overflow-hidden transition-colors duration-500',
@@ -183,16 +187,35 @@ export default function WorkoutDetailPage() {
                 )}>
                   {/* Block header */}
                   <div className={cn(
-                    'px-4 py-2.5 border-b flex justify-between items-center transition-colors duration-500',
+                    'px-4 py-3 border-b flex justify-between items-center transition-colors duration-500',
                     isDone
-                      ? 'bg-green-100 border-green-200 text-green-800'
-                      : 'bg-secondary/10 border-secondary text-dark'
+                      ? 'bg-green-50 border-green-200'
+                      : 'bg-secondary/20 border-secondary'
                   )}>
-                    <div className="flex items-center gap-2">
-                      {isDone && <CheckCircle2 className="h-4 w-4 text-green-600" />}
-                      <span className="font-urwdin font-semibold text-sm tracking-wide">{block.name}</span>
+                    <div className="flex items-center gap-3">
+                      {/* Letter badge */}
+                      <span
+                        className="h-7 w-7 rounded-lg flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                        style={{ backgroundColor: isDone ? '#16a34a' : 'var(--color-primary)' }}
+                      >
+                        {blockLetter}
+                      </span>
+                      {/* Group name */}
+                      <span className={cn(
+                        'font-urwdin font-semibold text-sm',
+                        isDone ? 'text-green-800' : 'text-dark'
+                      )}>
+                        {blockGroup}
+                      </span>
                     </div>
-                    <span className="text-sm font-urwdin opacity-70">{block.rounds} rounds</span>
+                    <span className={cn(
+                      'text-xs font-urwdin px-2.5 py-1 rounded-full',
+                      isDone
+                        ? 'bg-green-200 text-green-800'
+                        : 'bg-secondary/60 text-dark/60'
+                    )}>
+                      {block.rounds} rounds
+                    </span>
                   </div>
 
                   {/* Exercises */}
