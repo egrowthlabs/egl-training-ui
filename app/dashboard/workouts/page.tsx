@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getWorkouts } from '@/lib/api/workouts';
+import { getWorkouts, setFeaturedDate } from '@/lib/api/workouts';
 import type { Workout, WorkoutFilters, WorkoutCategory, WorkoutLevel, WorkoutIntensity } from '@/lib/types/workout';
 import { CATEGORY_LABELS, LEVEL_LABELS, INTENSITY_LABELS } from '@/lib/types/workout';
 import { PaginatedResponse } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Clock, Search, X, Plus, Sparkles, Lock } from 'lucide-react';
+import { Clock, Search, X, Plus, Sparkles, Lock, Star } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { getSubscriptionStatus } from '@/lib/api/stripe';
 import { PaywallCardBadge } from '@/components/paywall-overlay';
@@ -28,8 +28,12 @@ export default function WorkoutsPage() {
   const [filters, setFilters] = useState<WorkoutFilters>({ pageNumber: 1, pageSize: 12 });
   const [loading, setLoading] = useState(true);
   const [hasSubscription, setHasSubscription] = useState<boolean | null>(null);
+  const [featuringSaving, setFeaturingSaving] = useState<number | null>(null);
   const { user } = useAuth();
   const isAdmin = user?.roles?.some(r => ['Admin','SuperAdmin'].includes(r)) ?? false;
+
+  // Today key for comparison with featuredDate
+  const todayKey = new Date().toISOString().slice(0, 10);
 
   useEffect(() => {
     getSubscriptionStatus()
@@ -44,6 +48,27 @@ export default function WorkoutsPage() {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [filters]);
+
+  async function handleFeature(workout: Workout, e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    const isFeaturedToday = workout.featuredDate?.slice(0, 10) === todayKey;
+    const newDate = isFeaturedToday ? null : todayKey;
+    setFeaturingSaving(workout.id);
+    try {
+      await setFeaturedDate(workout.id, newDate);
+      setData(prev => prev ? {
+        ...prev,
+        items: prev.items.map(w =>
+          w.id === workout.id ? { ...w, featuredDate: newDate } : w
+        ),
+      } : prev);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setFeaturingSaving(null);
+    }
+  }
 
   const setFilter = (key: keyof WorkoutFilters, value: WorkoutFilters[keyof WorkoutFilters] | undefined) =>
     setFilters(prev => ({ ...prev, [key]: value, pageNumber: 1 }));
@@ -180,7 +205,7 @@ export default function WorkoutsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {data?.items.map(workout => (
-            <Link key={workout.id} href={`/dashboard/workouts/${workout.id}`} className="card group cursor-pointer block hover:-translate-y-1 transition-transform">
+            <Link key={workout.id} href={`/dashboard/workouts/${workout.id}`} className="card group cursor-pointer block hover:-translate-y-1 transition-transform relative">
               {/* Thumbnail */}
               <div className="aspect-video bg-secondary-100 rounded-lg mb-3 overflow-hidden relative">
                 {workout.thumbnailUrl ? (
@@ -202,6 +227,13 @@ export default function WorkoutsPage() {
                     Gratis
                   </div>
                 )}
+                {/* Clase del día badge */}
+                {workout.featuredDate?.slice(0, 10) === todayKey && (
+                  <div className="absolute top-2 right-2 flex items-center gap-1 bg-amber-400 text-white text-xs font-urwdin font-semibold px-2 py-0.5 rounded-full shadow">
+                    <Star className="h-3 w-3 fill-white" />
+                    Clase del día
+                  </div>
+                )}
                 {/* Paywall overlay: non-free + no subscription + not admin */}
                 {!workout.isFree && !isAdmin && hasSubscription === false && (
                   <PaywallCardBadge />
@@ -217,12 +249,32 @@ export default function WorkoutsPage() {
                 <span className={cn('badge text-xs', LEVEL_COLORS[workout.level as WorkoutLevel])}>
                   {LEVEL_LABELS[workout.level as WorkoutLevel]}
                 </span>
-
               </div>
 
               <p className="text-xs text-dark/40 mt-2 font-urwdin">
                 {CATEGORY_LABELS[workout.category as WorkoutCategory]}
               </p>
+
+              {/* Admin: programar como clase del día */}
+              {isAdmin && (
+                <button
+                  onClick={(e) => handleFeature(workout, e)}
+                  disabled={featuringSaving === workout.id}
+                  className={cn(
+                    'mt-3 w-full flex items-center justify-center gap-1.5 text-xs font-urwdin font-semibold py-1.5 rounded-lg border transition-all',
+                    workout.featuredDate?.slice(0, 10) === todayKey
+                      ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
+                      : 'bg-secondary/30 text-dark/50 border-transparent hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200'
+                  )}
+                >
+                  <Star className={cn('h-3 w-3', workout.featuredDate?.slice(0, 10) === todayKey ? 'fill-amber-400 text-amber-400' : '')} />
+                  {featuringSaving === workout.id
+                    ? 'Guardando...'
+                    : workout.featuredDate?.slice(0, 10) === todayKey
+                      ? 'Clase del día ✓'
+                      : 'Clase del día'}
+                </button>
+              )}
             </Link>
           ))}
         </div>

@@ -14,6 +14,7 @@ import {
   Activity, DollarSign,
 } from 'lucide-react'
 import { ActivityStatsWidget } from '@/components/activity-stats-widget'
+import { DailyClassWidget } from '@/components/daily-class-widget'
 
 // ── Admin (Coach) Dashboard ────────────────────────────────────────────────────
 
@@ -265,6 +266,12 @@ function CustomerDashboard() {
       <section>
         <h2 className="font-melodrama text-base text-dark mb-3">Mi actividad</h2>
         <ActivityStatsWidget compact={true} />
+      </section>
+
+      {/* Clase del día */}
+      <section>
+        <h2 className="font-melodrama text-base text-dark mb-3">Clase de hoy</h2>
+        <DailyClassWidget />
       </section>
 
       <section>

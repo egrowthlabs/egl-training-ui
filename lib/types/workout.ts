@@ -16,6 +16,7 @@ export interface Workout {
   durationMinutes?: number;
   isPublished: boolean;
   isFree: boolean;
+  featuredDate?: string | null; // 'YYYY-MM-DD'
   blocks?: import('./exercise').WorkoutBlock[];
 }
 

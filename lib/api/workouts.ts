@@ -52,3 +52,26 @@ export async function updateWorkout(id: number, data: Record<string, unknown>): 
     throw new Error(body.message ?? body.title ?? 'Error al actualizar la clase')
   }
 }
+
+/** Clase del día — retorna el workout destacado para hoy, o null si no hay. */
+export async function getFeaturedToday(): Promise<Workout | null> {
+  const res = await fetch(`${API_URL}/api/workouts/featured-today`, {
+    headers: getAuthHeaders(),
+  })
+  if (res.status === 404) return null
+  if (!res.ok) return null
+  return res.json()
+}
+
+/** [Admin] Asigna o quita la fecha de clase del día. Pasar null para quitar. */
+export async function setFeaturedDate(workoutId: number, date: string | null): Promise<void> {
+  const res = await fetch(`${API_URL}/api/workouts/${workoutId}/feature`, {
+    method: 'PUT',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ featuredDate: date }),
+  })
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.message ?? 'Error al actualizar clase del día')
+  }
+}
