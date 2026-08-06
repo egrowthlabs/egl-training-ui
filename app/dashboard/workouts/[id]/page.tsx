@@ -136,6 +136,15 @@ export default function WorkoutDetailPage() {
         </div>
       )}
 
+      {/* Link al historial del programa */}
+      <Link
+        href={`/dashboard/historial/programa/${id}`}
+        className="flex items-center justify-between px-4 py-3 rounded-2xl border border-secondary hover:bg-secondary/30 transition-colors font-urwdin"
+      >
+        <span className="text-sm text-dark/70">Mi historial de esta clase</span>
+        <span className="text-xs text-primary">Ver →</span>
+      </Link>
+
       {/* Tracker or Paywall */}
       {workout && !!user && (() => {
         // Admins always get access

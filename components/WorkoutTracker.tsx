@@ -416,7 +416,10 @@ export function WorkoutTracker({ workoutId, workoutBlocks, weightUnit, onSession
         roundNumber:     roundIdx + 1,
         reps:            isTime ? 0 : v.reps,
         durationSeconds: isTime ? (overrideDuration ?? v.duration) : 0,
-        weightLbs:       exercise.trackingType.includes('weight') ? v.weight : 0,
+        // Si el usuario está en kg, convertir a lbs antes de guardar
+        weightLbs: exercise.trackingType.includes('weight')
+          ? (weightUnit === 'kg' ? Math.round(v.weight * 2.20462 * 10) / 10 : v.weight)
+          : 0,
       })
       // Add to review log
       setLog(prev => [...prev, {
@@ -686,7 +689,13 @@ export function WorkoutTracker({ workoutId, workoutBlocks, weightUnit, onSession
             <div className="flex gap-3">
               <Stepper label="reps" value={curVals.reps} min={0} onChange={v => setVal('reps', v)} />
               {hasWeight && (
-                <Stepper label={weightUnit} value={curVals.weight} step={weightUnit === 'lbs' ? 5 : 2.5} min={0} onChange={v => setVal('weight', v)} />
+                <Stepper
+                  label={`peso (${weightUnit})`}
+                  value={curVals.weight}
+                  step={weightUnit === 'lbs' ? 5 : 2.5}
+                  min={0}
+                  onChange={v => setVal('weight', v)}
+                />
               )}
             </div>
             {apiError && (

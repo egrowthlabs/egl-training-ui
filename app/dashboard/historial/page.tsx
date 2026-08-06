@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getMyHistory, WorkoutSessionRecord } from '@/lib/api/sessions'
+import { getMyHistory, WorkoutSessionRecord, getMe } from '@/lib/api/sessions'
 import { Clock, Dumbbell, ChevronDown, ChevronUp, Calendar, Timer, Weight, Repeat } from 'lucide-react'
 import Link from 'next/link'
 import { useAuth } from '@/context/auth-context'
@@ -147,8 +147,13 @@ export default function HistorialPage() {
   const { user } = useAuth()
 
   useEffect(() => {
-    const stored = localStorage.getItem('preferredWeightUnit') as 'lbs' | 'kg' | null
-    if (stored) setWeightUnit(stored)
+    // Leer preferencia de peso desde API (fuente de verdad), con fallback a localStorage
+    getMe()
+      .then(me => setWeightUnit(me.preferredWeightUnit ?? 'lbs'))
+      .catch(() => {
+        const stored = localStorage.getItem('preferredWeightUnit') as 'lbs' | 'kg' | null
+        if (stored) setWeightUnit(stored)
+      })
 
     getMyHistory()
       .then(r => setSessions(r.items))

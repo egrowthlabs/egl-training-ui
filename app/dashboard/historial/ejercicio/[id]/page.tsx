@@ -9,7 +9,7 @@ import {
 import { ArrowLeft, Loader2, TrendingUp, Repeat, Timer, Weight, BarChart3, AlertTriangle } from 'lucide-react'
 import { getExerciseById } from '@/lib/api/exercises'
 import { Exercise, TRACKING_LABELS } from '@/lib/types/exercise'
-import { getProgressData } from '@/lib/api/sessions'
+import { getProgressData, getMe } from '@/lib/api/sessions'
 import { getUserExerciseProgress } from '@/lib/api/progress'
 import { WorkoutProgressPoint } from '@/lib/api/sessions'
 import Image from 'next/image'
@@ -75,18 +75,24 @@ export default function EjercicioHistorialPage() {
   const [loading,  setLoading]  = useState(true)
   const [error,    setError]    = useState('')
   const [activeMetric, setActiveMetric] = useState<'weight' | 'reps' | 'duration'>('weight')
+  const [weightUnit, setWeightUnit] = useState<'lbs' | 'kg'>('lbs')
+
+  const convert = (lbs: number) =>
+    weightUnit === 'kg' ? Math.round(lbs * 0.453592 * 10) / 10 : lbs
 
   useEffect(() => {
     async function load() {
       try {
-        const [ex, prog] = await Promise.all([
+        const [ex, prog, me] = await Promise.all([
           getExerciseById(exerciseId),
           adminUserId
             ? getUserExerciseProgress(adminUserId, exerciseId)
             : getProgressData(exerciseId),
+          getMe().catch(() => ({ preferredWeightUnit: 'lbs' as const })),
         ])
         setExercise(ex)
         setProgress(prog)
+        setWeightUnit(me.preferredWeightUnit ?? 'lbs')
 
         // Set default metric based on tracking type
         if (ex.trackingType.includes('weight')) setActiveMetric('weight')
@@ -123,17 +129,17 @@ export default function EjercicioHistorialPage() {
   const isTime   = exercise.trackingType.includes('time')
   const hasReps  = exercise.trackingType.includes('reps')
 
-  // Build chart data
+  // Build chart data — convert to user's preferred unit
   const chartData = progress.map(p => ({
     date:     fmtDate(p.date),
-    peso:     p.maxWeightLbs,
+    peso:     convert(p.maxWeightLbs),
     reps:     p.totalReps,
-    duration: p.setsCompleted,  // re-used as sets if no duration
+    duration: p.setsCompleted,
     sets:     p.setsCompleted,
   }))
 
-  // Stats
-  const maxWeight  = progress.length > 0 ? Math.max(...progress.map(p => p.maxWeightLbs)) : 0
+  // Stats — convert weights to user unit
+  const maxWeight  = progress.length > 0 ? Math.max(...progress.map(p => convert(p.maxWeightLbs))) : 0
   const maxReps    = progress.length > 0 ? Math.max(...progress.map(p => p.totalReps)) : 0
   const totalSets  = progress.reduce((a, p) => a + p.setsCompleted, 0)
   const sessions   = progress.length
@@ -146,7 +152,7 @@ export default function EjercicioHistorialPage() {
     : null
 
   const metrics = [
-    ...(isWeight ? [{ key: 'weight' as const, label: 'Peso', unit: 'lbs', color: '#4a6063' }] : []),
+    ...(isWeight ? [{ key: 'weight' as const, label: 'Peso', unit: weightUnit, color: '#4a6063' }] : []),
     ...(hasReps  ? [{ key: 'reps'   as const, label: 'Reps', unit: 'reps', color: '#7c9ea0' }] : []),
     { key: 'duration' as const, label: 'Series', unit: 'sets', color: '#9db4b6' },
   ]
@@ -286,7 +292,7 @@ export default function EjercicioHistorialPage() {
                   <td className="px-5 py-3 text-dark/70">{fmtDate(p.date)}</td>
                   {isWeight && (
                     <td className="px-4 py-3 text-right font-medium text-dark">
-                      {p.maxWeightLbs > 0 ? `${p.maxWeightLbs} lbs` : '—'}
+                      {p.maxWeightLbs > 0 ? `${convert(p.maxWeightLbs)} ${weightUnit}` : '—'}
                     </td>
                   )}
                   {hasReps && (
